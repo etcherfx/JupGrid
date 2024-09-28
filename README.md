@@ -8,6 +8,10 @@
 
 </div>
 
+## Projects Used 📁
+
+- [ARBProtocol's jupgrid](https://github.com/ARBProtocol/jupgrid)
+
 ## Features ✨
 
 - **Fully Decentralized Trading:** Operates on the Jupiter Limit Order Book, ensuring full control over your trading data and strategy.
