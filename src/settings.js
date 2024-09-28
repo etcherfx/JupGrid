@@ -1,12 +1,12 @@
-import bs58 from 'bs58';
-import dotenv from 'dotenv';
-import fs from 'fs';
-import promptSync from 'prompt-sync';
+import bs58 from 'bs58'
+import dotenv from 'dotenv'
+import fs from 'fs'
+import promptSync from 'prompt-sync'
 
-import { Keypair } from '@solana/web3.js';
+import { Keypair } from '@solana/web3.js'
 
-import { initialize } from './jupgrid.js';
-import * as utils from './utils.js';
+import { initialize } from './jupgrid.js'
+import * as utils from './utils.js'
 
 const prompt = promptSync({ sigint: true });
 

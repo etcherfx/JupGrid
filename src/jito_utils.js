@@ -1,36 +1,30 @@
 //This file handles the control of JITO Bundles. Wrapping, getting tip and managing TXs
-import bs58 from 'bs58';
-import Websocket from 'ws';
-import ora from 'ora';
-import {
-    Keypair,
-    PublicKey,
-    SystemProgram,
-    TransactionMessage,
-    VersionedTransaction
-} from '@solana/web3.js';
+import bs58 from 'bs58'
+import Websocket from 'ws'
+import ora from 'ora'
+import { Keypair, PublicKey, SystemProgram, TransactionMessage, VersionedTransaction } from '@solana/web3.js'
 
 import {
-    checkOpenOrders,
-    cancelOrder,
-    createTx,
     balanceCheck,
-    getBalance,
-    selectedAddressA,
-    selectedAddressB,
-    selectedTokenA,
-    selectedTokenB,
-    payer,
+    cancelOrder,
+    checkArray,
+    checkOpenOrders,
     connection,
+    createTx,
+    getBalance,
     infinityBuyInputLamports,
     infinityBuyOutputLamports,
     infinitySellInputLamports,
     infinitySellOutputLamports,
-    checkArray,
-    maxJitoTip
-} from './jupgrid.js';
+    maxJitoTip,
+    payer,
+    selectedAddressA,
+    selectedAddressB,
+    selectedTokenA,
+    selectedTokenB
+} from './jupgrid.js'
 
-import { delay } from './utils.js';
+import { delay } from './utils.js'
 
 export {
     encodeTransactionToBase58,

@@ -1,35 +1,16 @@
 // #region imports
-import axios from 'axios';
-import chalk from 'chalk';
-import fetch from 'cross-fetch';
-import * as fs from 'fs';
+import axios from 'axios'
+import chalk from 'chalk'
+import fetch from 'cross-fetch'
+import * as fs from 'fs'
 
-import {
-	LimitOrderProvider,
-	ownerFilter
-} from '@jup-ag/limit-order-sdk';
-import * as solanaWeb3 from '@solana/web3.js';
-import {
-	Connection,
-	VersionedTransaction
-} from '@solana/web3.js';
+import { LimitOrderProvider, ownerFilter } from '@jup-ag/limit-order-sdk'
+import * as solanaWeb3 from '@solana/web3.js'
+import { Connection, VersionedTransaction } from '@solana/web3.js'
 
-import {
-	envload,
-	loaduserSettings,
-	saveuserSettings
-} from './settings.js';
-import {
-	delay,
-	downloadTokensList,
-	getTokenAccounts,
-	getTokens,
-	questionAsync,
-	rl
-} from './utils.js';
-import {
-    jitoController,
-} from './jito_utils.js';
+import { envload, loaduserSettings, saveuserSettings } from './settings.js'
+import { delay, downloadTokensList, getTokenAccounts, getTokens, questionAsync, rl } from './utils.js'
+import { jitoController, } from './jito_utils.js'
 import asciichart from 'asciichart'
 // #endregion
 

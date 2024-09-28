@@ -1,4 +1,4 @@
-import { PublicKey, TransactionInstruction } from "@solana/web3.js";
+import { PublicKey, TransactionInstruction } from '@solana/web3.js'
 
 const PROGRAM_ID = new PublicKey(
 	"HARBRqBp3GL6BzN5CoSFnKVQMpGah4mkBCDFLxigGARB"
