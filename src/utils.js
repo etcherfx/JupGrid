@@ -5,84 +5,84 @@ import readline from 'readline'
 
 import solanaWeb3 from '@solana/web3.js'
 
-function delay(ms) {
-	return new Promise((resolve) => {
-		setTimeout(resolve, ms);
-	});
+function delay (ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms)
+    })
 }
 
 const rl = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout
-});
+    input: process.stdin,
+    output: process.stdout
+})
 
-function questionAsync(question) {
-	return new Promise((resolve) => {
-		rl.question(question, resolve);
-	});
+function questionAsync (question) {
+    return new Promise((resolve) => {
+        rl.question(question, resolve)
+    })
 }
 
-async function downloadTokensList() {
-	const response = await axios.get("https://token.jup.ag/strict");
-	const { data } = response;
-	const tokens = data.map(({ symbol, address, decimals }) => ({
-		symbol,
-		address,
-		decimals
-	}));
-	fs.writeFileSync("tokens.txt", JSON.stringify(tokens));
-	return data;
+async function downloadTokensList () {
+    const response = await axios.get('https://token.jup.ag/strict')
+    const { data } = response
+    const tokens = data.map(({ symbol, address, decimals }) => ({
+        symbol,
+        address,
+        decimals
+    }))
+    fs.writeFileSync('tokens.txt', JSON.stringify(tokens))
+    return data
 }
 
-async function getTokens() {
-	if (!fs.existsSync("tokens.txt")) {
-		await downloadTokensList();
-	}
-	return JSON.parse(fs.readFileSync("tokens.txt"));
+async function getTokens () {
+    if (!fs.existsSync('tokens.txt')) {
+        await downloadTokensList()
+    }
+    return JSON.parse(fs.readFileSync('tokens.txt'))
 }
 
 class Encrypter {
-	constructor(encryptionKey) {
-		this.algorithm = "aes-192-cbc";
-		this.key = crypto.scryptSync(encryptionKey, "salt", 24);
-	}
+    constructor (encryptionKey) {
+        this.algorithm = 'aes-192-cbc'
+        this.key = crypto.scryptSync(encryptionKey, 'salt', 24)
+    }
 
-	encrypt(clearText) {
-		const iv = crypto.randomBytes(16);
-		const cipher = crypto.createCipheriv(this.algorithm, this.key, iv);
-		const encrypted = cipher.update(clearText, "utf8", "hex");
-		return [
-			encrypted + cipher.final("hex"),
-			Buffer.from(iv).toString("hex")
-		].join("|");
-	}
+    encrypt (clearText) {
+        const iv = crypto.randomBytes(16)
+        const cipher = crypto.createCipheriv(this.algorithm, this.key, iv)
+        const encrypted = cipher.update(clearText, 'utf8', 'hex')
+        return [
+            encrypted + cipher.final('hex'),
+            Buffer.from(iv).toString('hex')
+        ].join('|')
+    }
 
-	decrypt(encryptedText) {
-		const [encrypted, iv] = encryptedText.split("|");
-		if (!iv) throw new Error("IV not found");
-		const decipher = crypto.createDecipheriv(
-			this.algorithm,
-			this.key,
-			Buffer.from(iv, "hex")
-		);
-		return (
-			decipher.update(encrypted, "hex", "utf8") + decipher.final("utf8")
-		);
-	}
+    decrypt (encryptedText) {
+        const [encrypted, iv] = encryptedText.split('|')
+        if (!iv) throw new Error('IV not found')
+        const decipher = crypto.createDecipheriv(
+            this.algorithm,
+            this.key,
+            Buffer.from(iv, 'hex')
+        )
+        return (
+            decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8')
+        )
+    }
 }
 
-async function getTokenAccounts(connection, address, tokenMintAddress) {
-	return await connection.getParsedTokenAccountsByOwner(address, {
-		mint: new solanaWeb3.PublicKey(tokenMintAddress)
-	});
+async function getTokenAccounts (connection, address, tokenMintAddress) {
+    return await connection.getParsedTokenAccountsByOwner(address, {
+        mint: new solanaWeb3.PublicKey(tokenMintAddress)
+    })
 }
 
 export {
-	delay,
-	downloadTokensList,
-	Encrypter,
-	getTokenAccounts,
-	getTokens,
-	questionAsync,
-	rl
-};
+    delay,
+    downloadTokensList,
+    Encrypter,
+    getTokenAccounts,
+    getTokens,
+    questionAsync,
+    rl
+}
