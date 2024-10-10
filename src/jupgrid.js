@@ -551,8 +551,6 @@ async function initialize () {
     }
 
     while (!validTokenA) {
-        console.log('\nDuring this Beta stage, we are only allowing USDC as Token A. Is that ok?')
-        // Simulate the user entered 'USDC' as their answer
         let answer = 'USDC'
 
         const token = tokens.find((t) => t.symbol === answer)
@@ -560,20 +558,10 @@ async function initialize () {
             console.log(`Selected Token: ${token.symbol}
 Token Address: ${token.address}
 Token Decimals: ${token.decimals}`)
-            const confirmAnswer = await questionAsync(
-                `Is this the correct token? (Y/N): `
-            )
-            if (
-                confirmAnswer.toLowerCase() === 'y' ||
-                confirmAnswer.toLowerCase() === 'yes'
-            ) {
-                validTokenA = true
-                selectedTokenA = token.symbol
-                selectedAddressA = token.address
-                selectedDecimalsA = token.decimals
-            }
-        } else {
-            console.log(`Token ${answer} not found. Please Try Again.`)
+            validTokenA = true
+            selectedTokenA = token.symbol
+            selectedAddressA = token.address
+            selectedDecimalsA = token.decimals
         }
     }
 
@@ -622,7 +610,7 @@ Token Decimals: ${token.decimals}`)
     // If infinity target value is not valid, prompt the user
     while (!validInfinityTarget) {
         const infinityTargetInput = await questionAsync(
-            `\nPlease Enter the Token B Target Value (in USD): `
+            `\nPlease enter the infinity target value: `
         )
         infinityTarget = Math.floor(parseFloat(infinityTargetInput))
         if (
@@ -634,7 +622,7 @@ Token Decimals: ${token.decimals}`)
             validInfinityTarget = true
         } else {
             console.log(
-                'Invalid Token B Target value. Please enter a valid integer that is larger than the stop loss value.'
+                'Invalid infinity target value. Please enter a valid number that is larger than the stop loss value.'
             )
         }
     }
@@ -654,8 +642,7 @@ Token Decimals: ${token.decimals}`)
     // If spread percentage is not valid, prompt the user
     while (!validSpread) {
         const spreadInput = await questionAsync(
-            `\nWhat % Spread Difference Between Market and Orders?
-Recommend >0.3% to cover Jupiter Fees, but 1% or greater for best performance:`
+            `\nEnter the percentage spread between the market price and the order price: `
         )
         spread = parseFloat(spreadInput)
         if (!isNaN(spread)) {
@@ -663,7 +650,7 @@ Recommend >0.3% to cover Jupiter Fees, but 1% or greater for best performance:`
             validSpread = true
         } else {
             console.log(
-                'Invalid spread percentage. Please enter a valid number (No % Symbol).'
+                'Invalid spread percentage. Please enter a valid number.'
             )
         }
     }
@@ -672,7 +659,7 @@ Recommend >0.3% to cover Jupiter Fees, but 1% or greater for best performance:`
         validStopLossUSD = !isNaN(parseFloat(userSettings.stopLossUSD))
         if (!validStopLossUSD) {
             console.log(
-                'Invalid stop loss value found in user data. Please re-enter.'
+                'Invalid stop loss value found in user data. Please re-enter: '
             )
             userSettings.stopLossUSD = null // Reset stop loss value
         } else validStopLossUSD = true
@@ -681,8 +668,7 @@ Recommend >0.3% to cover Jupiter Fees, but 1% or greater for best performance:`
     // If stop loss value is not valid, prompt the user
     while (!validStopLossUSD) {
         const stopLossUSDInput = await questionAsync(
-            `\nPlease Enter the Stop Loss Value in USD:
-(Enter 0 for no stoploss) `
+            `\nEnter the stop loss amount in USD: `
         )
         stopLossUSD = parseFloat(stopLossUSDInput)
         if (!isNaN(stopLossUSD)) {
@@ -697,10 +683,7 @@ Recommend >0.3% to cover Jupiter Fees, but 1% or greater for best performance:`
 
     while (!validJitoMaxTip) {
         const maxJitoTipQuestion = await questionAsync(
-            `\nEnter the maximum Jito tip in SOL
-This is the maximum tip you are willing to pay for a Jito order,
-However, we use a dynamic tip based on the last 30 minute average tip.
-(Default 0.0002 SOL, Minimum 0.00001): `
+            `\nEnter the maximum Jito tip amount in SOL: `
         )
         // Check if input is empty and set default value
         if (maxJitoTipQuestion.trim() === '') {
@@ -722,8 +705,7 @@ However, we use a dynamic tip based on the last 30 minute average tip.
 
     while (!validMonitorDelay) {
         const monitorDelayQuestion = await questionAsync(
-            `\nEnter the delay between price checks in milliseconds.
-(minimum 100ms, recommended/default > 5000ms): `
+            `\nEnter the delay between price checks in milliseconds: `
         )
         // Check if input is empty and set default value
         if (monitorDelayQuestion.trim() === '') {
@@ -736,7 +718,7 @@ However, we use a dynamic tip based on the last 30 minute average tip.
                 validMonitorDelay = true
             } else {
                 console.log(
-                    'Invalid monitor delay. Please enter a valid number greater than or equal to 1000.'
+                    'Invalid monitor delay. Please enter a valid number greater than or equal to 100.'
                 )
             }
         }
@@ -1069,7 +1051,7 @@ async function balanceCheck () {
         if (!askForRebalance) {
             return true
         }
-        const answer = await questionAsync('Do you want to proceed with this transaction? (Y/n) ')
+        const answer = await questionAsync('Do you want to proceed with this transaction? (Y/N): ')
         if (answer.toUpperCase() === 'N') {
             console.log('Transaction cancelled by user. Closing program.')
             process.exit(0)
